@@ -12,9 +12,12 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.ccs.romanticadventure.data.PreferenceConfig;
+
 public class Game_First_Activity extends AppCompatActivity {
 
     private WebView webView;
+    private int choose;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -25,7 +28,7 @@ public class Game_First_Activity extends AppCompatActivity {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        // Добавляем интерфейс для взаимодействия между JavaScript и Android-кодом
+        // Додаємо інтерфейс для можливості взаємодії Android коду та JavaScript. Тег для цього є Android
         webView.addJavascriptInterface(new WebAppInterface(), "Android");
 
         webView.setWebViewClient(new WebViewClient() {
@@ -42,14 +45,30 @@ public class Game_First_Activity extends AppCompatActivity {
         webView.loadUrl("file:///android_asset/game_first_activity.html");
     }
 
-    // Класс для взаимодействия между JavaScript и Android-кодом
+    @Override
+    protected void onStart() {
+        super.onStart();
+        preferences();
+    }
+
+    // Клас для створення методів для взаємодії між кодом
     public class WebAppInterface {
 
         @JavascriptInterface
-        public void showToast(){
-
+        public void firstButtonTouched(){
+            choose = 0;
+            PreferenceConfig.setFirstChoose(getApplicationContext(), choose);
             Intent intent = new Intent(Game_First_Activity.this, MainActivity.class);
             startActivity(intent);
         }
+        public void secondButtonTouched(){
+            choose = 1;
+            PreferenceConfig.setFirstChoose(getApplicationContext(), choose);
+            Intent intent = new Intent(Game_First_Activity.this, MainActivity.class);
+            startActivity(intent);
+        }
+    }
+    private void preferences(){
+        choose = PreferenceConfig.getFirstChoose(this);
     }
 }

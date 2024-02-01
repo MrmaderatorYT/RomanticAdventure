@@ -6,6 +6,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -56,21 +58,35 @@ public class MainActivity extends AppCompatActivity {
 
     //отримання ІР по вай фаю
     public String getDeviceIPAddress(Context context) {
-        //Створюємо змінну, яка отримує дані ІР по вай фаю
-        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        //отримуємо тип підключення (Є безпровідна, а є ще Езернет)
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        int ipAddress = wifiInfo.getIpAddress();
+        if (isNetworkAvailable(context)) {
+            WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            int ipAddress = wifiInfo.getIpAddress();
 
-        // Форматування по 16ти розрядному тексту
-        @SuppressLint("DefaultLocale") String ipAddressStr = String.format("%d.%d.%d.%d",
-                (ipAddress & 0xFF),
-                (ipAddress >> 8 & 0xFF),
-                (ipAddress >> 16 & 0xFF),
-                (ipAddress >> 24 & 0xFF));
-        //Виводимо на екран текст
-        Toast.makeText(MainActivity.this, ""+ipAddress+"", Toast.LENGTH_LONG).show();
-        return ipAddressStr;
+            // Форматирование IP-адреса
+            @SuppressLint("DefaultLocale") String ipAddressStr = String.format("%d.%d.%d.%d",
+                    (ipAddress & 0xFF),
+                    (ipAddress >> 8 & 0xFF),
+                    (ipAddress >> 16 & 0xFF),
+                    (ipAddress >> 24 & 0xFF));
+
+            // Выводим IP-адрес в Toast
+            Toast.makeText(context, "IP Address: " + ipAddressStr, Toast.LENGTH_LONG).show();
+
+            return ipAddressStr;
+        } else {
+            Toast.makeText(context, "Нет подключения к Интернету", Toast.LENGTH_LONG).show();
+            return null;
+        }
+    }
+
+    private boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+        return false;
     }
     private void preferences(){
         ip = PreferenceConfig.getIP(this);
