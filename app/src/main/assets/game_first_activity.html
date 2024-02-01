@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebView Example</title>
+    <style>
+        body {
+            background-image: url('background_image.jpg'); /* Замените на путь к вашей картинке */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #content {
+            position: relative;
+            height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #textContainer {
+            width: 80%;
+            background-color: rgba(255, 255, 255, 0.7); /* Прозрачный белый цвет для прямоугольника */
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        #text {
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 auto;
+            border-right: 2px solid #000; /* Линия, изображающая печать текста */
+            font-size: 20px;
+            animation: typing 2s steps(24) forwards; /* Анимация для печати текста */
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        #button {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div id="content">
+    <div id="textContainer">
+        <p id="text">Рєклама на русском радіо</p>
+    </div>
+</div>
+<div id="button">
+    <button onclick="Android.showToast()">ААААААААААААААААААА</button>
+</div>
+</body>
+</html>
