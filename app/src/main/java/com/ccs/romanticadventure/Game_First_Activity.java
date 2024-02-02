@@ -14,8 +14,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.ccs.romanticadventure.data.PreferenceConfig;
+import com.ccs.romanticadventure.system.ExitConfirmationDialog;
+//супер клас головного вікна, бо тільки так буде працювати код підтвердження виходу з програми
 
-public class Game_First_Activity extends AppCompatActivity {
+public class Game_First_Activity extends MainActivity {
 
     private WebView webView;
     private int choose;
@@ -72,5 +74,9 @@ public class Game_First_Activity extends AppCompatActivity {
     }
     private void preferences(){
         choose = PreferenceConfig.getFirstChoose(this);
+    }
+    @Override
+    public void onBackPressed() {
+        ExitConfirmationDialog.showExitConfirmationDialog(this);
     }
 }

@@ -4,3 +4,77 @@
 	-webkit-user-select: none;
 	user-select: none;
 }
+body {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-color: black;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-grow: 1;
+}
+
+#textContainer {
+    width: 80%;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#text {
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0 auto;
+    border-right: 2px solid #000;
+    font-size: 20px;
+    animation: typing 2s steps(24) forwards;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+#button {
+    width: 50%; /* Ширина кнопки */
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+button {
+    background-color: white;
+    border: 2px solid #ff66b2; /* Розовый акцент */
+    color: #ff66b2; /* Розовый акцент */
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+    background-color: #ff66b2; /* Полностью розовая при наведении */
+    color: white; /* Белый текст при наведении */
+}
+
+button:active {
+    background-color: #ff66b2; /* Полностью розовая при нажатии */
+    color: white; /* Белый текст при нажатии */
+}

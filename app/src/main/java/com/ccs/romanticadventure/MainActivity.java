@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ccs.romanticadventure.data.PreferenceConfig;
+import com.ccs.romanticadventure.system.ExitConfirmationDialog;
 
 public class MainActivity extends AppCompatActivity {
     TextView startGame;
@@ -96,5 +97,12 @@ public class MainActivity extends AppCompatActivity {
     private void preferences(){
         ip = PreferenceConfig.getIP(this);
 
+    }
+    @Override
+    public void onBackPressed() {
+        ExitConfirmationDialog.showExitConfirmationDialog(this);
+    }
+    public void exit() {
+        finish(); // это завершит текущую активити
     }
 }
