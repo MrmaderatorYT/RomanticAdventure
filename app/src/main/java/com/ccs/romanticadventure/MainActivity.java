@@ -22,7 +22,6 @@ import com.ccs.romanticadventure.system.ExitConfirmationDialog;
 
 public class MainActivity extends AppCompatActivity {
     TextView startGame, settings;
-    String ip;
     MediaPlayer mp;
     float volume;
 
@@ -32,14 +31,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //фіксуємо орієнтацію яка не зміниться (альбомна)
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE);
-        volume = PreferenceConfig.getVolumeLevel(this);
+
+
+        //фіксуємо орієнтацію яка не зміниться (альбомна)
 
         settings = findViewById(R.id.settings);
         startGame = findViewById(R.id.startBtn);
         //завантажуємо дані, які нам потрібно
-        preferences();
     }
 
 
@@ -48,14 +47,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //нам потірбне права
-        //<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-        //<uses-permission android:name="android.permission.INTERNET"/>
-        //<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-        ip = getDeviceIPAddress(MainActivity.this);
-        PreferenceConfig.saveIP(getApplicationContext(), ip);
-
+        volume = PreferenceConfig.getVolumeLevel(this);
+        Toast.makeText(MainActivity.this, "аа"+volume, Toast.LENGTH_LONG).show();
         //створюємо пісню, яка буде нескінченною
         //і запускаємо
         mp = MediaPlayer.create(this, R.raw.intro);
@@ -71,47 +64,21 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        settings.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                MainActivity.this.startActivity(new Intent(MainActivity.this, Settings.class));
+                overridePendingTransition(0,0);
+                return false;
+            }
+        });
 
 
     }
 
-
-    //отримання ІР по вай фаю
-    public String getDeviceIPAddress(Context context) {
-        if (isNetworkAvailable(context)) {
-            WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-            int ipAddress = wifiInfo.getIpAddress();
-
-            // Форматирование IP-адреса
-            @SuppressLint("DefaultLocale") String ipAddressStr = String.format("%d.%d.%d.%d",
-                    (ipAddress & 0xFF),
-                    (ipAddress >> 8 & 0xFF),
-                    (ipAddress >> 16 & 0xFF),
-                    (ipAddress >> 24 & 0xFF));
-
-            // Выводим IP-адрес в Toast
-            Toast.makeText(context, "IP Address: " + ipAddressStr, Toast.LENGTH_LONG).show();
-
-            return ipAddressStr;
-        } else {
-            Toast.makeText(context, "Нет подключения к Интернету", Toast.LENGTH_LONG).show();
-            return null;
-        }
-    }
-
-    private boolean isNetworkAvailable(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager != null) {
-            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-        }
-        return false;
-    }
 
     private void preferences() {
-        ip = PreferenceConfig.getIP(this);
-
+        volume = PreferenceConfig.getVolumeLevel(this);
     }
 
     @Override
@@ -127,13 +94,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         mp.release();
-        mp.stop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mp.stop();
         mp.release();
     }
 }
