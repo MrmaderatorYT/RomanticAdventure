@@ -1,43 +1,61 @@
 let textArray = [
     "Реклама на русском радіо",
-    "Хіт ФМ",
-    "Абра радіо"
-    // Текст
+    "Україна понад усе",
+    "росії немає",
 ];
 
 let textIndex = 0;
 let textElement = document.getElementById("text");
+let buttonElement = document.getElementById("buttonFirst");
+let buttonSecondElement = document.getElementById("buttonSecond");
+
+let delayBetweenCharacters = 100; //затримка між спавном символів
+let delayBetweenTexts = 2000; // затримка між спавнінгом іншого тексту з масиву
 
 function animateText() {
-    // Очищуємо текст, щоб не було з'єднання з іншим масивом
     textElement.innerHTML = "";
-
-    // отримуємо новий індекс
     let newText = textArray[textIndex];
 
-    let i = 0;
-    // встановлюємо інтервал
-    let intervalId = setInterval(function () {
-        // додаємо новий індекс до масиву
-        textElement.innerHTML += newText[i];
-        i++;
+    function animateFrame(i) {
+        setTimeout(() => {
+            textElement.innerHTML += newText[i];
 
-        // Якщо досягли кінця - очищуємо інтервал
-        if (i === newText.length) {
-            clearInterval(intervalId);
+            if (i < newText.length - 1) {
+                animateFrame(i + 1);
+            } else {
+                setTimeout(() => {
+                    textIndex = (textIndex + 1) % textArray.length;
 
-            // Після затримки в 1000 мілісекондс - викликаємо новий тєкст
-            setTimeout(function () {
-                // оновлюємо індекс масиву з текстом
-                textIndex = (textIndex + 1) % textArray.length;
-                // викликаємо фунцію для анімації тексту
-                animateText();
-            }, 1000);
-        }
-    }, 50); // Інтервал між появою тексту (символами)
+                    if (textIndex === 2) {
+                        buttonElement.style.display = "block";
+                        buttonSecondElement.style.display = "block";
+                        animationInProgress = false;
+                        return;
+                    } else {
+                        buttonElement.style.display = "none";
+                        buttonSecondElement.style.display = "none";
+                    }
+
+                    buttonElement.addEventListener("click", redirectToFirstHTML);
+                    buttonSecondElement.addEventListener("click", redirectToSecondHTML);
+                    animationInProgress = true;
+                    animateText();
+                }, delayBetweenTexts);
+            }
+        }, delayBetweenCharacters);
+    }
+
+    animateFrame(0);
+}
+
+function redirectToFirstHTML() {
+    window.location.href = "FFF";
+}
+
+function redirectToSecondHTML() {
+    window.location.href = "FF";
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-//стартуємо фунцію
     animateText();
 });

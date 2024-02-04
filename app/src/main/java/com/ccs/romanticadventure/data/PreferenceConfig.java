@@ -8,6 +8,7 @@ public class PreferenceConfig {
     public static final String IP = "ip";
 
     public static final String FIRST_CHOOSE = "first_choose";
+    public static final String VOLUME_LEVEL = "volume_level";
 
     public static void registerPref(Context context, SharedPreferences.OnSharedPreferenceChangeListener listener) {
         SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
@@ -34,6 +35,17 @@ public class PreferenceConfig {
     public static int getFirstChoose(Context context) {
         SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
         return pref.getInt(FIRST_CHOOSE, 0);
+    }
+    public static void setVolumeLevel(Context context, float value) {
+        SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putFloat(VOLUME_LEVEL, value);
+        editor.apply();
+    }
+
+    public static float getVolumeLevel(Context context) {
+        SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
+        return pref.getFloat(VOLUME_LEVEL, 100.0f);
     }
 
 }

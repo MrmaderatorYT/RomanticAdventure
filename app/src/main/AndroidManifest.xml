@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
@@ -16,10 +16,16 @@
         android:theme="@style/Theme.RomanticAdventure"
         tools:targetApi="31">
         <activity
+            android:name=".Settings"
+            android:screenOrientation="landscape"
+            android:exported="false" />
+        <activity
             android:name=".Game_First_Activity"
+            android:screenOrientation="landscape"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="landscape"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

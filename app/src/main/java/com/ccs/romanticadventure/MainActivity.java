@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -20,17 +21,22 @@ import com.ccs.romanticadventure.data.PreferenceConfig;
 import com.ccs.romanticadventure.system.ExitConfirmationDialog;
 
 public class MainActivity extends AppCompatActivity {
-    TextView startGame;
+    TextView startGame, settings;
     String ip;
+    MediaPlayer mp;
+    float volume;
 
     //метод, який створює екран
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //фіксуємо орієнтацію яка не зміниться (альбомна)
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE);
+        volume = PreferenceConfig.getVolumeLevel(this);
 
+        settings = findViewById(R.id.settings);
         startGame = findViewById(R.id.startBtn);
         //завантажуємо дані, які нам потрібно
         preferences();
@@ -47,8 +53,15 @@ public class MainActivity extends AppCompatActivity {
         //<uses-permission android:name="android.permission.INTERNET"/>
         //<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-                ip = getDeviceIPAddress(MainActivity.this);
+        ip = getDeviceIPAddress(MainActivity.this);
         PreferenceConfig.saveIP(getApplicationContext(), ip);
+
+        //створюємо пісню, яка буде нескінченною
+        //і запускаємо
+        mp = MediaPlayer.create(this, R.raw.intro);
+        mp.setLooping(true);
+        mp.setVolume(volume, volume);
+        mp.start();
 
         startGame.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -58,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
 
     }
 
@@ -94,15 +108,32 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
-    private void preferences(){
+
+    private void preferences() {
         ip = PreferenceConfig.getIP(this);
 
     }
+
     @Override
     public void onBackPressed() {
         ExitConfirmationDialog.showExitConfirmationDialog(this);
     }
+
     public void exit() {
-        finish(); // это завершит текущую активити
+        finish(); // завершення актівіті
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mp.release();
+        mp.stop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mp.stop();
+        mp.release();
     }
 }
