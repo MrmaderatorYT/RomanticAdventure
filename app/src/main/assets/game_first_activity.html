@@ -3,22 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel ="stylesheet" href = "./css/styles.css">
+    <link rel ="stylesheet" href="./css/styles.css">
     <script src="./js/script.js" defer></script>
 </head>
 <style>
-    body{
+    body {
         background-image: url('file:///android_res/drawable/snowy_forest1.png');
-     }
+    }
+
 </style>
 <body>
 <div id="content">
     <div id="textContainer">
         <p id="text"></p>
     </div>
+    <div id="rectangle">
+        <p id = "name"></p>
+    </div> <!-- Додаємо прямокутник -->
 </div>
-<!--завдяки style="display: none;" ми робимо кнопку невидимою-->
-    <button id = "buttonFirst" onclick="Android.firstButtonTouched()" style="display: none;">Варіант №1</button>
-    <button id = "buttonSecond" onclick="Android.secondButtonTouched()" style="display: none;">Варіант №2</button>
+<!-- Завдяки style="display: none;" ми робимо кнопку невидимою -->
+<button id="buttonFirst" style="display: none;">Так</button>
+<button id="buttonSecond" style="display: none;">Ні</button>
 </body>
 </html>

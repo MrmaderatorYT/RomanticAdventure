@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
@@ -21,6 +22,8 @@ public class Game_First_Activity extends MainActivity {
 
     private WebView webView;
     private int choose;
+    float volumeLvl;
+    MediaPlayer mediaPlayer;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -31,6 +34,11 @@ public class Game_First_Activity extends MainActivity {
         webView = findViewById(R.id.webView);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+
+        volumeLvl = PreferenceConfig.getVolumeLevel(this);
+        mediaPlayer = MediaPlayer.create(this, R.raw.school);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.setVolume(volumeLvl, volumeLvl);
 
         // Додаємо інтерфейс для можливості взаємодії Android коду та JavaScript. Тег для цього є Android
         webView.addJavascriptInterface(new WebAppInterface(), "Android");
