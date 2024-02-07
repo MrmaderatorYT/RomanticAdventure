@@ -11,7 +11,7 @@ public class PreferenceConfig {
 
     public static final String IVAN = "ivan";
     public static final String KATYA = "katya";
-    public static final String ANTONYA = "antonya";
+    public static final String ANTONIYA = "antoniya";
     public static final String EVGENIY_ANATOLIEVICH = "evgeniy_anatolievich";
     public static final String IGOR = "igor";
     public static final String VADYM = "vadym";
@@ -69,13 +69,13 @@ public class PreferenceConfig {
     public static void setAntonyaValue(Context context, int value) {
         SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putInt(ANTONYA, value);
+        editor.putInt(ANTONIYA, value);
         editor.apply();
     }
 
     public static int getAntonyaValue(Context context) {
         SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
-        return pref.getInt(ANTONYA, 0);
+        return pref.getInt(ANTONIYA, 0);
     }
     public static void setEvgeniyAnatolievichValue(Context context, int value) {
         SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
@@ -102,11 +102,22 @@ public class PreferenceConfig {
     public static void setVadymValue(Context context, int value) {
         SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putInt(SONYA, value);
+        editor.putInt(VADYM, value);
         editor.apply();
     }
 
     public static int getVadymValue(Context context) {
+        SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
+        return pref.getInt(VADYM, 0);
+    }
+    public static void setSonyaValue(Context context, int value) {
+        SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt(SONYA, value);
+        editor.apply();
+    }
+
+    public static int getSonyaValue(Context context) {
         SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
         return pref.getInt(SONYA, 0);
     }

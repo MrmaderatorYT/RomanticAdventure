@@ -24,11 +24,41 @@ let textArray = [
     "Добре, я куплю тобі цукерки, але тільки обіцяй, що не будеш докучати сьогодні ввечері",//TODO в блоці імені - Іван
     "І приставка сьогодні моя!", //TODO в блоці імені Іван
     "Але я повинна пройти боса в грі...",//TODO додати в блоці імені - Катя
+    //25 індекс значення на 28 рядку
     "...",
     "Тоді не куплю",//TODO в блок імені Іван
     "[Я забираю список і йду до вхіднох дверей.]",
-    "Ну хоть часик, дасиш пограти?..."//TODO в блоці імені Катя
+    "Ну хоть часик, дасиш пограти?...",//TODO в блоці імені Катя
+    //29 index on 33 line
+    "Дати Каті годинку пограти ввечері?",
 
+     //TODO подветвь "Хорошый братик"
+    "Ну...",//TODO в блок імені Іван
+    "Годинку дам",//TODO в блок імені Іван + додати +1 до катіної лояльності
+    "Добре, домовились",//TODO в блок імені Катя
+    "[Я почав збиратися в магазин.]",
+    "[Поглянувши на тумбу, я згадав, що цю шапку подарував мені тато.]",
+    "[Він привіз мені з Польщі.]",
+    "[Я вийшов з дому, сестра закрила за мною двері.]",
+    "Хочеться прогулятись. Піду-но я через ліс...",//TODO в блок імені Іван
+    "...",
+    //40 index in 46 line
+    "Через 15 хвилин я захожу в невеличкий магазин Універсал",//TODO в блок імені лапки додати з Вьорду
+
+    //TODO підгілка "Поганий братик"
+    "[Катя на мене подивилася собачими очима]",
+    "[Вона опустила голову, встала і побігла у свою кімнату не доївши]",
+    "[Я тільки фиркнув у її сторону і почав збиратися до магазину]",
+    "[Я вийшов з дому і пішов через ліс, бо так швидше]",
+    "[Через 13 хвилин я заходжу в магазин Уніка 12/7]",//TODO лапки....
+
+
+    //TODO гілка Магазін Уківерсал (не глава)
+    //TODO підгілка гарний братик в магазині (тут взагалі буде й поганий братик в магазині) Треба через переевірку sharedPreferences перевірити які бали щоб вивести текст
+    "[Я зайшов у магазин та взяв візок]",
+    "[Я купив усі потрібні речі та підійшов до стійки з цукерками]",
+    "[Я підійшов до коробки з цукерками Корівка]", //TODO Лапки з вьорду
+    "[Взяв 100 - 120 грам]"
 ];
 
 let textIndex = 0;
@@ -37,7 +67,7 @@ let buttonElement = document.getElementById("buttonFirst");
 let buttonSecondElement = document.getElementById("buttonSecond");
 let nameElement = document.getElementById("name"); // Отримуємо елемент прямокутника
 
-let delayBetweenCharacters = 100; //затримка між спавном символів
+let delayBetweenCharacters = 40; //затримка між спавном символів
 let delayBetweenTexts = 2000; // затримка між спавнінгом іншого тексту з масиву
 
 
@@ -61,7 +91,7 @@ function animateText() {
                 setTimeout(() => {
                     textIndex += 1
 
-                    if (textIndex === 4 || textIndex===17) {
+                    if (textIndex === 4 || textIndex===17 || textIndex===29) {
                         buttonElement.style.display = "block";
                         buttonSecondElement.style.display = "block";
                         animationInProgress = false;
@@ -86,14 +116,16 @@ function animateText() {
 function firstBtn() {
     if(textIndex===3){
         return;
-
 }
     else if(textIndex===17){
         textElement.innerHTML = "А що ж мені купити? Список дасиш, як минулого разу";
         nameElement.innerHTML = "???"
         textIndex = 18;
-        // Викликаємо animateText() після завершення попередньої анімації
     }
+    else if (textIndex===29){
+        return;
+    }
+
     buttonElement.style.display = "none";
     buttonSecondElement.style.display = "none";
      setTimeout(() => {
@@ -109,9 +141,13 @@ function secondBtn() {
         }
         else if(textIndex===17){
         textElement.innerHTML = "Ні, так не піде";
-                nameElement.innerHTML = "Протагоніст"
-                textIndex = 18;
+        nameElement.innerHTML = "Протагоніст"
+        textIndex = 18;
         }
+        else if(textIndex==29){
+            textIndex=40;
+        }
+
         buttonElement.style.display = "none";
         buttonSecondElement.style.display = "none";
         // Викликаємо animateText() після завершення попередньої анімації
@@ -123,7 +159,7 @@ function secondBtn() {
 
 document.addEventListener("DOMContentLoaded", function () {
     animateText();
-
+//FIXME что бы не накладывалось мисив на масив
     // Додаємо обробник події для контейнера textContainer
     document.getElementById("textContainer").addEventListener("click", function () {
         textElement.innerHTML = "";
