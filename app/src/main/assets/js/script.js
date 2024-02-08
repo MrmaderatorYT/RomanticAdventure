@@ -1,4 +1,4 @@
-let textArray = [
+var textArray = [
     "[Я прокидаюсь від звука противного будильника]",
     "[Я намагаюсь нащупати окуляри...",
     "[Знайшов окуляри...]",
@@ -60,21 +60,23 @@ let textArray = [
     "[Я підійшов до коробки з цукерками Корівка]", //TODO Лапки з вьорду
     "[Взяв 100 - 120 грам]"
 ];
+var typeAnim = Android.getValue();
+var textIndex = 0;
+var textElement = document.getElementById("text");
+var buttonElement = document.getElementById("buttonFirst");
+var buttonSecondElement = document.getElementById("buttonSecond");
+var nameElement = document.getElementById("name"); // Отримуємо елемент прямокутника
 
-let textIndex = 0;
-let textElement = document.getElementById("text");
-let buttonElement = document.getElementById("buttonFirst");
-let buttonSecondElement = document.getElementById("buttonSecond");
-let nameElement = document.getElementById("name"); // Отримуємо елемент прямокутника
-
-let delayBetweenCharacters = 40; //затримка між спавном символів
-let delayBetweenTexts = 2000; // затримка між спавнінгом іншого тексту з масиву
+var delayBetweenCharacters = 40; //затримка між спавном символів
+var delayBetweenTexts = 2000; // затримка між спавнінгом іншого тексту з масиву
+var animationInProgress;
+var waitForButtonClick = false; // Флаг для ожидания нажатия на кнопку
 
 
 
 function animateText() {
     textElement.innerHTML = "";
-    let newText = textArray[textIndex];
+    var newText = textArray[textIndex];
      if (newText === "росії немає" || newText === "абра") {
             nameElement.innerHTML = "Степан";
         } else {
@@ -89,6 +91,9 @@ function animateText() {
                 animateFrame(i + 1);
             } else {
                 setTimeout(() => {
+                    if(typeAnim === false){
+                        return;
+                    }
                     textIndex += 1
 
                     if (textIndex === 4 || textIndex===17 || textIndex===29) {
@@ -114,8 +119,8 @@ function animateText() {
 }
 
 function firstBtn() {
-    if(textIndex===3){
-        return;
+    if(textIndex===4){
+    textIndex=5;
 }
     else if(textIndex===17){
         textElement.innerHTML = "А що ж мені купити? Список дасиш, як минулого разу";
@@ -123,9 +128,9 @@ function firstBtn() {
         textIndex = 18;
     }
     else if (textIndex===29){
-        return;
+        Android.firstChooseYes();
     }
-
+    waitForButtonClick = false;
     buttonElement.style.display = "none";
     buttonSecondElement.style.display = "none";
      setTimeout(() => {
@@ -134,7 +139,7 @@ function firstBtn() {
 }
 
 function secondBtn() {
-    if(textIndex===4){
+    if(textIndex===3){
         textElement.innerHTML = "Ні, так не піде";
         nameElement.innerHTML = "Протагоніст"
         textIndex = 3;
@@ -145,9 +150,10 @@ function secondBtn() {
         textIndex = 18;
         }
         else if(textIndex==29){
+        Android.firstChooseYes();
             textIndex=40;
         }
-
+        waitForButtonClick = false;
         buttonElement.style.display = "none";
         buttonSecondElement.style.display = "none";
         // Викликаємо animateText() після завершення попередньої анімації
@@ -158,16 +164,39 @@ function secondBtn() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    animateText();
-//FIXME что бы не накладывалось мисив на масив
+    if(typeAnim === true){
+        animateText();
+    }
+    else{
     // Додаємо обробник події для контейнера textContainer
     document.getElementById("textContainer").addEventListener("click", function () {
-        textElement.innerHTML = "";
+    if (waitForButtonClick) {
+                    return; // Если да, то просто выходим из функции
+                }
         // Перевіряємо, чи не досягнуто кінця масиву textArray
+         if (!animationInProgress) {
+                    // Переходим к следующему тексту, если это возможно
+                    if (textIndex < textArray.length - 1) {
+                    if (textIndex === 3 || textIndex===17 || textIndex===29) {
+                        buttonElement.style.display = "block";
+                        buttonSecondElement.style.display = "block";
+                        textElement.innerHTML = textArray[textIndex];
+                        waitForButtonClick=true;
 
-        if (textIndex < textArray.length - 1) {
-            textIndex++; // Збільшуємо індекс
-            textElement.innerHTML = textArray[textIndex]; // Відображаємо новий текст
-        }
+                    } else {
+                        buttonElement.style.display = "none";
+                        buttonSecondElement.style.display = "none";
+                    }
+                        buttonElement.addEventListener("click", firstBtn);
+                        buttonSecondElement.addEventListener("click", secondBtn);
+                        textIndex++;
+                        textElement.innerHTML = textArray[textIndex];
+                    }
+                } else {
+                    // Пропускаем анимацию и сразу отображаем следующий текст
+                    textIndex++;
+                    textElement.innerHTML = textArray[textIndex];
+         }
     });
+    }
 });

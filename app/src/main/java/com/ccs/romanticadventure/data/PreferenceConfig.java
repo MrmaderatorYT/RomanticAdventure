@@ -16,6 +16,7 @@ public class PreferenceConfig {
     public static final String IGOR = "igor";
     public static final String VADYM = "vadym";
     public static final String SONYA = "sonya";
+    public static final String ANIM_SWITCH_VALUE = "anim_switch_value";
 
     public static void registerPref(Context context, SharedPreferences.OnSharedPreferenceChangeListener listener) {
         SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
@@ -120,6 +121,17 @@ public class PreferenceConfig {
     public static int getSonyaValue(Context context) {
         SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
         return pref.getInt(SONYA, 0);
+    }
+    public static void setAnimSwitchValue(Context context, boolean value) {
+        SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean(ANIM_SWITCH_VALUE, value);
+        editor.apply();
+    }
+
+    public static boolean getAnimSwitchValue(Context context) {
+        SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
+        return pref.getBoolean(ANIM_SWITCH_VALUE, true);
     }
 
 }

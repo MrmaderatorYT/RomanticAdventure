@@ -15,15 +15,17 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.ccs.romanticadventure.data.PreferenceConfig;
+import com.ccs.romanticadventure.data.WebAppInterface;
 import com.ccs.romanticadventure.system.ExitConfirmationDialog;
 //супер клас головного вікна, бо тільки так буде працювати код підтвердження виходу з програми
 
 public class Game_First_Activity extends MainActivity {
 
     private WebView webView;
-    private int choose;
+    private int katya;
     float volumeLvl;
     MediaPlayer mediaPlayer;
+    boolean type;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -34,6 +36,8 @@ public class Game_First_Activity extends MainActivity {
         webView = findViewById(R.id.webView);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        katya = PreferenceConfig.getKatyaValue(this);
+        type = PreferenceConfig.getAnimSwitchValue(this);
 
         volumeLvl = PreferenceConfig.getVolumeLevel(this);
         mediaPlayer = MediaPlayer.create(this, R.raw.school);
@@ -41,8 +45,8 @@ public class Game_First_Activity extends MainActivity {
         mediaPlayer.setVolume(volumeLvl, volumeLvl);
 
         // Додаємо інтерфейс для можливості взаємодії Android коду та JavaScript. Тег для цього є Android
-        webView.addJavascriptInterface(new WebAppInterface(), "Android");
-
+        com.ccs.romanticadventure.data.WebAppInterface webAppInterface = new com.ccs.romanticadventure.data.WebAppInterface(type);
+        webView.addJavascriptInterface(webAppInterface, "Android");
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
@@ -54,34 +58,27 @@ public class Game_First_Activity extends MainActivity {
         webView.setWebChromeClient(new WebChromeClient());
 
         // Загрузка локального HTML-файла
-        webView.loadUrl("file:///android_asset/game_first_activity.html");
+        webView.loadUrl("file:///android_asset/index.html");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        preferences();
     }
 
     // Клас для створення методів для взаємодії між кодом
     public class WebAppInterface {
 
         @JavascriptInterface
-        public void firstButtonTouched(){
-            choose = 0;
-            PreferenceConfig.setFirstChoose(getApplicationContext(), choose);
-            Intent intent = new Intent(Game_First_Activity.this, MainActivity.class);
-            startActivity(intent);
+        public void firstChooseYes(){
+            --katya;
+            PreferenceConfig.setKatyaValue(getApplicationContext(), katya);
+
         }
-        public void secondButtonTouched(){
-            choose = 1;
-            PreferenceConfig.setFirstChoose(getApplicationContext(), choose);
-            Intent intent = new Intent(Game_First_Activity.this, MainActivity.class);
-            startActivity(intent);
+        public void firstChooseNo(){
+            --katya;
+            PreferenceConfig.setKatyaValue(getApplicationContext(), katya);
         }
-    }
-    private void preferences(){
-        choose = PreferenceConfig.getFirstChoose(this);
     }
     @Override
     public void onBackPressed() {

@@ -3,4 +3,7 @@
     <string name="start_game">Почати подорож</string>
     <string name="volume_settings">Налаштування гучності</string>
     <string name="settings">Налаштування</string>
+    <string name="type_of_spawning_text">Тип анімації тексту</string>
+    <string name="auto">Автоматично</string>
+    <string name="touching">Натисками</string>
 </resources>

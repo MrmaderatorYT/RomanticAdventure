@@ -38,8 +38,9 @@ body {
     white-space: nowrap;
     margin: 0 auto;
     border-right: 2px solid #000;
-    font-size: 20px;
+    font-size: 5px;
     animation: typing 2s steps(24) forwards;
+
 }
 
 @keyframes typing {

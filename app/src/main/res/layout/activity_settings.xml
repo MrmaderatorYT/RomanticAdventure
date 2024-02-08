@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="@string/settings"
+        android:textColor="@color/black"
         android:id="@+id/settings"
         android:background="@drawable/white_bg"
 
@@ -35,6 +36,7 @@
         android:layout_below="@+id/settings"
         android:background="@drawable/white_bg"
         android:layout_marginTop="25sp"
+        android:textColor="@color/black"
         android:id="@+id/settings_volume"/>
     <TextView
         android:layout_width="wrap_content"
@@ -42,7 +44,41 @@
         android:id="@+id/volume_text"
         android:layout_below="@+id/settings_volume"
         android:layout_marginRight="40dp"
+        android:textColor="@color/black"
         android:background="@drawable/white_bg"
+        android:layout_toRightOf="@+id/volume_set"
+        android:layout_marginTop="25sp" />
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_bg"
+        android:layout_below="@+id/type_of_anim_text"
+        android:layout_marginTop="25sp"
+        android:id="@+id/switch_anim"
+        android:layout_centerInParent="true"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <TextView
+        android:id="@+id/type_of_anim_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/volume_set"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="25sp"
+        android:background="@drawable/white_bg"
+        android:text="@string/type_of_spawning_text"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/type_anim_value_text"
+        android:layout_below="@+id/type_of_anim_text"
+        android:layout_marginRight="40dp"
+        android:textColor="@color/black"
+        android:background="@drawable/white_bg"
+        android:layout_toRightOf="@+id/volume_set"
         android:layout_marginTop="25sp" />
 
 
