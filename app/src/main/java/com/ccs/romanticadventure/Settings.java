@@ -32,7 +32,6 @@ public class Settings extends AppCompatActivity implements SharedPreferences.OnS
         setContentView(R.layout.activity_settings);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         volumeLvl = PreferenceConfig.getVolumeLevel(this);
         type = PreferenceConfig.getAnimSwitchValue(this);
         mediaPlayer = MediaPlayer.create(this, R.raw.intro);
@@ -43,6 +42,7 @@ public class Settings extends AppCompatActivity implements SharedPreferences.OnS
         typeAnim = findViewById(R.id.type_anim_value_text);
         seekBar = findViewById(R.id.volume_set);
         volumeTextView = findViewById(R.id.volume_text);
+
 
         if(type){
             switch_anim_value.setChecked(true);
@@ -59,7 +59,7 @@ public class Settings extends AppCompatActivity implements SharedPreferences.OnS
     private void initializeSeekBar() {
 
         seekBar.setMax(100); // Встановіть максимальне значення, ви можете взяти те, яке вам потрібно
-        seekBar.setProgress((int)volumeLvl);
+        seekBar.setProgress((int) (volumeLvl * 100));
         System.out.println("ініціалізація"+(int)volumeLvl);
 
 
@@ -87,14 +87,11 @@ public class Settings extends AppCompatActivity implements SharedPreferences.OnS
     }
 
 
-    private void initializeMediaPlayer() {
-        // Ініціалізація mediaPlayer (відтворення, пауза, зупинка, тощо)
-    }
+
 
     private void updateVolume() {
         mediaPlayer.setVolume(volumeLvl, volumeLvl);
         volumeTextView.setText("Гучність: " + (int) (volumeLvl * 100) + "%");
-        System.out.println("aaaaaaaaaaaaaaaaaaaaa"+volumeLvl);
 
     }
 
@@ -124,7 +121,7 @@ public class Settings extends AppCompatActivity implements SharedPreferences.OnS
     protected void onStart(){
         super.onStart();
         initializeSeekBar();
-        initializeMediaPlayer();
+        updateVolume();
         if(switch_anim_value!=null){
             switch_anim_value.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) this);
         }

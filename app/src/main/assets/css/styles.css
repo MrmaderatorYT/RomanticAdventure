@@ -40,8 +40,16 @@ body {
     border-right: 2px solid #000;
     font-size: 5px;
     animation: typing 2s steps(24) forwards;
-
 }
+#buttonSkip {
+    width: 125px; /* Задайте ширину кнопки по вашему желанию */
+    height: 25px; /* Задайте высоту кнопки по вашему желанию */
+    position: fixed; /* Задаем позицию фиксированной */
+    bottom: 10px; /* Расположение снизу */
+    right: 10px; /* Расположение справа */
+    font-size: 10px;
+}
+
 
 @keyframes typing {
     from {

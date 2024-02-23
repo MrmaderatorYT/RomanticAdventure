@@ -6,32 +6,33 @@ import android.content.SharedPreferences;
 public class PreferenceConfig {
     public static final String REFERENCE = "reference";
 
-    public static final String FIRST_CHOOSE = "first_choose";
+    public static final String CHOOSE = "choose";
     public static final String VOLUME_LEVEL = "volume_level";
 
     public static final String IVAN = "ivan";
-    public static final String KATYA = "katya";
+    public static final String KATYA = "katya";//сестра івана
     public static final String ANTONIYA = "antoniya";
     public static final String EVGENIY_ANATOLIEVICH = "evgeniy_anatolievich";
-    public static final String IGOR = "igor";
-    public static final String VADYM = "vadym";
-    public static final String SONYA = "sonya";
+    public static final String IGOR = "igor";//тато івана
+    public static final String VADYM = "vadym";// друг вани
+    public static final String SONYA = "sonya";//яндере
+    public static final String BEAR = "bear";
     public static final String ANIM_SWITCH_VALUE = "anim_switch_value";
 
     public static void registerPref(Context context, SharedPreferences.OnSharedPreferenceChangeListener listener) {
         SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
         pref.registerOnSharedPreferenceChangeListener(listener);
     }
-    public static void setFirstChoose(Context context, int value) {
+    public static void setChoose(Context context, int value) {
         SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putInt(FIRST_CHOOSE, value);
+        editor.putInt(CHOOSE, value);
         editor.apply();
     }
 
-    public static int getFirstChoose(Context context) {
+    public static int getChoose(Context context) {
         SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
-        return pref.getInt(FIRST_CHOOSE, 0);
+        return pref.getInt(CHOOSE, 0);
     }
     public static void setVolumeLevel(Context context, float value) {
         SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
@@ -121,6 +122,17 @@ public class PreferenceConfig {
     public static int getSonyaValue(Context context) {
         SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
         return pref.getInt(SONYA, 0);
+    }
+    public static void setBearValue(Context context, int value) {
+        SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt(BEAR, value);
+        editor.apply();
+    }
+
+    public static int getBearValue(Context context) {
+        SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);
+        return pref.getInt(BEAR, 0);
     }
     public static void setAnimSwitchValue(Context context, boolean value) {
         SharedPreferences pref = context.getSharedPreferences(REFERENCE, Context.MODE_PRIVATE);

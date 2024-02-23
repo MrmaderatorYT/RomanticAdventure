@@ -6,4 +6,5 @@
     <string name="type_of_spawning_text">Тип анімації тексту</string>
     <string name="auto">Автоматично</string>
     <string name="touching">Натисками</string>
+    <string name="info">Інфо</string>
 </resources>

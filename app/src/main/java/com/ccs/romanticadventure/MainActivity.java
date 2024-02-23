@@ -21,8 +21,8 @@ import android.widget.Toast;
 import com.ccs.romanticadventure.data.PreferenceConfig;
 import com.ccs.romanticadventure.system.ExitConfirmationDialog;
 
-public class MainActivity extends AppCompatActivity {
-    TextView startGame, settings;
+public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
+    TextView startGame, settings, info;
     MediaPlayer mp;
     float volume;
 
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //фіксуємо орієнтацію яка не зміниться (альбомна)
-
+        info = findViewById(R.id.info);
         settings = findViewById(R.id.settings);
         startGame = findViewById(R.id.startBtn);
         //завантажуємо дані, які нам потрібно
@@ -50,30 +50,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         volume = PreferenceConfig.getVolumeLevel(this);
-        Toast.makeText(MainActivity.this, "аа"+volume, Toast.LENGTH_LONG).show();
+        startGame.setOnTouchListener(MainActivity.this);
+        settings.setOnTouchListener(this);
+        info.setOnTouchListener(this);
         //створюємо пісню, яка буде нескінченною
         //і запускаємо
         mp = MediaPlayer.create(this, R.raw.intro);
         mp.setLooping(true);
         mp.setVolume(volume, volume);
         mp.start();
-
-        startGame.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                MainActivity.this.startActivity(new Intent(MainActivity.this, Game_First_Activity.class));
-                overridePendingTransition(0, 0);
-                return false;
-            }
-        });
-        settings.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                MainActivity.this.startActivity(new Intent(MainActivity.this, Settings.class));
-                overridePendingTransition(0,0);
-                return false;
-            }
-        });
 
 
     }
@@ -95,12 +80,37 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        mp.release();
+        releaseMediaPlayer();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mp.release();
+        releaseMediaPlayer();
+    }
+    private void releaseMediaPlayer() {
+        if (mp != null) {
+            mp.release();
+            mp = null;
+        }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (v.getId()) {
+            case R.id.startBtn:
+                startActivity(new Intent(MainActivity.this, Game_First_Activity.class));
+                overridePendingTransition(0, 0);
+                break;
+            case R.id.settings:
+                startActivity(new Intent(MainActivity.this, Settings.class));
+                overridePendingTransition(0, 0);
+                break;
+            case R.id.info:
+                startActivity(new Intent(MainActivity.this, Info.class));
+                overridePendingTransition(0, 0);
+                break;
+        }
+        return false;
     }
 }

@@ -8,21 +8,25 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.RomanticAdventure"
         tools:targetApi="31">
         <activity
-            android:name=".Settings"
-            android:screenOrientation="landscape"
+            android:name=".Info"
             android:exported="false" />
+        <activity
+            android:name=".Settings"
+            android:exported="false"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".Game_First_Activity"
-            android:screenOrientation="landscape"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="landscape"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

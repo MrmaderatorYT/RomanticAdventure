@@ -18,7 +18,7 @@ var textArray = [
     "[Чи потрібно запитати про список?]",
     "Точно! Ледт не забула, Катю, дай список брату.",//TODO в блок імені Мама
     "[Я дивлюся, як мама збирається та виходить на вулицю]",
-    "Вань, купи мені цукерки Корівка", //TODO  блок імені Катя і також додати лапки для цукерок (взяти з вьорду) і тепер замість "???" писати в репліку Івана його ім'я
+    "Вань, купи мені цукерки «Корівка»", //TODO  блок імені Катя і також додати лапки для цукерок (взяти з вьорду) і тепер замість "???" писати в репліку Івана його ім'я
     "...",
     "[Вибору нема...]",
     "Добре, я куплю тобі цукерки, але тільки обіцяй, що не будеш докучати сьогодні ввечері",//TODO в блоці імені - Іван
@@ -43,21 +43,21 @@ var textArray = [
     "Хочеться прогулятись. Піду-но я через ліс...",//TODO в блок імені Іван
     "...",
     //40 index in 46 line
-    "Через 15 хвилин я захожу в невеличкий магазин Універсал",//TODO в блок імені лапки додати з Вьорду
+    "Через 15 хвилин я захожу в невеличкий магазин «Універсал»",//TODO в блок імені лапки додати з Вьорду
 
     //TODO підгілка "Поганий братик"
     "[Катя на мене подивилася собачими очима]",
     "[Вона опустила голову, встала і побігла у свою кімнату не доївши]",
     "[Я тільки фиркнув у її сторону і почав збиратися до магазину]",
     "[Я вийшов з дому і пішов через ліс, бо так швидше]",
-    "[Через 13 хвилин я заходжу в магазин Уніка 12/7]",//TODO лапки....
+    "[Через 13 хвилин я заходжу в магазин «Уніка 12/7»]",//TODO лапки....
 
 
     //TODO гілка Магазін Уківерсал (не глава)
     //TODO підгілка гарний братик в магазині (тут взагалі буде й поганий братик в магазині) Треба через переевірку sharedPreferences перевірити які бали щоб вивести текст
     "[Я зайшов у магазин та взяв візок]",
     "[Я купив усі потрібні речі та підійшов до стійки з цукерками]",
-    "[Я підійшов до коробки з цукерками Корівка]", //TODO Лапки з вьорду
+    "[Я підійшов до коробки з цукерками «Корівка»]", //TODO Лапки з вьорду
     "[Взяв 100 - 120 грам]"
 ];
 var typeAnim = Android.getValue();
@@ -65,7 +65,10 @@ var textIndex = 0;
 var textElement = document.getElementById("text");
 var buttonElement = document.getElementById("buttonFirst");
 var buttonSecondElement = document.getElementById("buttonSecond");
+var buttonHistoryElement = document.getElementById("buttonHistory");
 var nameElement = document.getElementById("name"); // Отримуємо елемент прямокутника
+
+var indexArray = Android.indexFromJS(textIndex);
 
 var delayBetweenCharacters = 40; //затримка між спавном символів
 var delayBetweenTexts = 2000; // затримка між спавнінгом іншого тексту з масиву
@@ -94,7 +97,8 @@ function animateText() {
                     if(typeAnim === false){
                         return;
                     }
-                    textIndex += 1
+                    textIndex += 1;
+                    indexArray = Android.indexFromJS(textIndex);
 
                     if (textIndex === 4 || textIndex===17 || textIndex===29) {
                         buttonElement.style.display = "block";
@@ -117,15 +121,17 @@ function animateText() {
 
     animateFrame(0);
 }
+buttonHistoryElement.addEventListener("click", showHistoryDialog);
 
 function firstBtn() {
     if(textIndex===4){
-    textIndex=5;
+    textIndex=3;
 }
     else if(textIndex===17){
         textElement.innerHTML = "А що ж мені купити? Список дасиш, як минулого разу";
         nameElement.innerHTML = "???"
         textIndex = 18;
+        indexArray = Android.indexFromJS(textIndex);
     }
     else if (textIndex===29){
         Android.firstChooseYes();
@@ -143,15 +149,18 @@ function secondBtn() {
         textElement.innerHTML = "Ні, так не піде";
         nameElement.innerHTML = "Протагоніст"
         textIndex = 3;
+        indexArray = Android.indexFromJS(textIndex);
         }
         else if(textIndex===17){
         textElement.innerHTML = "Ні, так не піде";
         nameElement.innerHTML = "Протагоніст"
         textIndex = 18;
+        indexArray = Android.indexFromJS(textIndex);
         }
         else if(textIndex==29){
         Android.firstChooseYes();
             textIndex=40;
+            indexArray = Android.indexFromJS(textIndex);
         }
         waitForButtonClick = false;
         buttonElement.style.display = "none";
@@ -190,13 +199,51 @@ document.addEventListener("DOMContentLoaded", function () {
                         buttonElement.addEventListener("click", firstBtn);
                         buttonSecondElement.addEventListener("click", secondBtn);
                         textIndex++;
+                        indexArray = Android.indexFromJS(textIndex);
                         textElement.innerHTML = textArray[textIndex];
                     }
                 } else {
-                    // Пропускаем анимацию и сразу отображаем следующий текст
+                    // Вирубаєм анімку
                     textIndex++;
+                    indexArray = Android.indexFromJS(textIndex);
                     textElement.innerHTML = textArray[textIndex];
          }
     });
+
     }
 });
+function showHistoryDialog() {
+    // Создание диалогового окна
+    var dialog = document.createElement("div");
+    dialog.style.width = "300px"; // Ширина окна
+    dialog.style.height = "200px"; // Высота окна
+    dialog.style.overflowY = "auto"; // Включение вертикальной прокрутки
+    dialog.style.backgroundColor = "#ffffff"; // Белый цвет фона
+    dialog.style.padding = "10px"; // Отступы внутри окна
+    dialog.style.border = "1px solid #cccccc"; // Граница окна
+    dialog.style.position = "absolute"; // Позиционирование окна
+    dialog.style.top = "50%"; // Положение по вертикали
+    dialog.style.left = "50%"; // Положение по горизонтали
+    dialog.style.transform = "translate(-50%, -50%)"; // Центрирование окна
+
+    // Создание элемента для отображения текста
+    var textElement = document.createElement("div");
+    textElement.style.overflowY = "auto"; // Включение вертикальной прокрутки для текста
+    textElement.style.maxHeight = "100%"; // Максимальная высота текста
+    textElement.style.fontSize = "14px"; // Размер шрифта
+    textElement.style.lineHeight = "1.5"; // Межстрочный интервал
+
+    // Добавление каждой строки из массива в элемент текста
+    for (textIndex; textIndex < textArray.length; textIndex++) {
+        var line = document.createElement("div");
+        line.textContent = textArray[textIndex];
+        textElement.appendChild(line);
+    }
+
+
+    // Добавление элемента текста в диалоговое окно
+    dialog.appendChild(textElement);
+
+    // Добавление диалогового окна в тело документа
+    document.body.appendChild(dialog);
+}
