@@ -1,7 +1,5 @@
 package com.ccs.romanticadventure;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -12,11 +10,12 @@ import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ccs.romanticadventure.data.PreferenceConfig;
 
-public class Settings extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener,  CompoundButton.OnCheckedChangeListener {
+public class Settings extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CompoundButton.OnCheckedChangeListener {
 
     private MediaPlayer mediaPlayer;
     private SeekBar seekBar;
@@ -44,11 +43,10 @@ public class Settings extends AppCompatActivity implements SharedPreferences.OnS
         volumeTextView = findViewById(R.id.volume_text);
 
 
-        if(type){
+        if (type) {
             switch_anim_value.setChecked(true);
             volumeTextView.setText(R.string.auto);
-        }
-        else{
+        } else {
             switch_anim_value.setChecked(false);
             volumeTextView.setText(R.string.touching);
         }
@@ -60,14 +58,14 @@ public class Settings extends AppCompatActivity implements SharedPreferences.OnS
 
         seekBar.setMax(100); // Встановіть максимальне значення, ви можете взяти те, яке вам потрібно
         seekBar.setProgress((int) (volumeLvl * 100));
-        System.out.println("ініціалізація"+(int)volumeLvl);
+        System.out.println("ініціалізація" + (int) volumeLvl);
 
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                volumeLvl = (float) progress/100; // Оновлюємо значення volumeLvl
-                System.out.println("aaaaaaaaaaaaaaaaaaaaa"+volumeLvl);
+                volumeLvl = (float) progress / 100; // Оновлюємо значення volumeLvl
+                System.out.println("aaaaaaaaaaaaaaaaaaaaa" + volumeLvl);
                 updateVolume(); // Передаємо нове значення у метод updateVolume
                 PreferenceConfig.setVolumeLevel(getApplicationContext(), volumeLvl);
             }
@@ -85,8 +83,6 @@ public class Settings extends AppCompatActivity implements SharedPreferences.OnS
             }
         });
     }
-
-
 
 
     private void updateVolume() {
@@ -115,14 +111,15 @@ public class Settings extends AppCompatActivity implements SharedPreferences.OnS
         super.onBackPressed();
         PreferenceConfig.setVolumeLevel(getApplicationContext(), volumeLvl);
         finish();
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
     }
+
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         initializeSeekBar();
         updateVolume();
-        if(switch_anim_value!=null){
+        if (switch_anim_value != null) {
             switch_anim_value.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) this);
         }
 
@@ -133,14 +130,14 @@ public class Settings extends AppCompatActivity implements SharedPreferences.OnS
         volumeLvl = PreferenceConfig.getVolumeLevel(this);
 
     }
+
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(isChecked){
-            type=true;
+        if (isChecked) {
+            type = true;
             PreferenceConfig.setAnimSwitchValue(getApplicationContext(), type);
-        }
-        else{
-            type=false;
+        } else {
+            type = false;
             PreferenceConfig.setAnimSwitchValue(getApplicationContext(), type);
         }
     }

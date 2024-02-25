@@ -74,7 +74,7 @@ var delayBetweenCharacters = 40; //затримка між спавном сим
 var delayBetweenTexts = 2000; // затримка між спавнінгом іншого тексту з масиву
 var animationInProgress;
 var waitForButtonClick = false; // Флаг для ожидания нажатия на кнопку
-
+var historyBlockIsVisible = false
 
 
 function animateText() {
@@ -121,7 +121,15 @@ function animateText() {
 
     animateFrame(0);
 }
-buttonHistoryElement.addEventListener("click", showHistoryDialog);
+
+buttonHistoryElement.addEventListener("click", function(){
+    if (historyBlockIsVisible){
+        hideHistoryDialog();
+    } else {
+        showHistoryDialog();
+    }
+});
+
 
 function firstBtn() {
     if(textIndex===4){
@@ -215,6 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function showHistoryDialog() {
     // Создание диалогового окна
     var dialog = document.createElement("div");
+    dialog.id = "historyDialog"
     dialog.style.width = "300px"; // Ширина окна
     dialog.style.height = "200px"; // Высота окна
     dialog.style.overflowY = "auto"; // Включение вертикальной прокрутки
@@ -228,6 +237,7 @@ function showHistoryDialog() {
 
     // Создание элемента для отображения текста
     var textElement = document.createElement("div");
+    textElement.id = "historyText"; // Установка идентификатора для элемента текста
     textElement.style.overflowY = "auto"; // Включение вертикальной прокрутки для текста
     textElement.style.maxHeight = "100%"; // Максимальная высота текста
     textElement.style.fontSize = "14px"; // Размер шрифта
@@ -246,4 +256,14 @@ function showHistoryDialog() {
 
     // Добавление диалогового окна в тело документа
     document.body.appendChild(dialog);
+}
+function hideHistoryDialog() {
+   var dialog = document.getElementById("historyDialog");
+   var textElement = document.getElementById("historyText");
+
+       // Скрываем диалоговое окно
+       if (historyBlockIsVisible) {
+           dialog.style.display = "none";
+           textElement.style.display = "none";
+       }
 }

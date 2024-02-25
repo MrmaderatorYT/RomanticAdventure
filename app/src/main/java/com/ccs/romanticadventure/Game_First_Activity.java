@@ -1,10 +1,6 @@
 package com.ccs.romanticadventure;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -18,13 +14,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.ccs.romanticadventure.data.PreferenceConfig;
-import com.ccs.romanticadventure.data.WebAppInterface;
 import com.ccs.romanticadventure.system.ExitConfirmationDialog;
-
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 //супер клас головного вікна, бо тільки так буде працювати код підтвердження виходу з програми
 
 public class Game_First_Activity extends MainActivity {
@@ -79,10 +69,10 @@ public class Game_First_Activity extends MainActivity {
 
     public class WebAppInterface {
         @JavascriptInterface
-        public int indexFromJS(int value){
+        public int indexFromJS(int value) {
             choose = value;
             PreferenceConfig.setChoose(getApplicationContext(), choose);
-            Toast.makeText(Game_First_Activity.this, ""+choose, Toast.LENGTH_LONG);
+            Toast.makeText(Game_First_Activity.this, "" + choose, Toast.LENGTH_LONG);
             return value;
         }
     }

@@ -15,6 +15,7 @@ public class WebAppInterface {
     public boolean getValue() {
         return type;
     }
+
     @JavascriptInterface
     public int indexFromJS(int value) {
         this.value = value;

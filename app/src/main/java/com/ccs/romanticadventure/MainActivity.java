@@ -1,22 +1,16 @@
 package com.ccs.romanticadventure;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.ccs.romanticadventure.data.PreferenceConfig;
 import com.ccs.romanticadventure.system.ExitConfirmationDialog;
@@ -88,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         super.onDestroy();
         releaseMediaPlayer();
     }
+
     private void releaseMediaPlayer() {
         if (mp != null) {
             mp.release();
