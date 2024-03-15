@@ -66,9 +66,11 @@ var textElement = document.getElementById("text");
 var buttonElement = document.getElementById("buttonFirst");
 var buttonSecondElement = document.getElementById("buttonSecond");
 var buttonHistoryElement = document.getElementById("buttonHistory");
+var buttonFastLoadElement = document.getElementById("fastLoad");
+var buttonFastSaveElement = document.getElementById("fastSave");
 var nameElement = document.getElementById("name"); // Отримуємо елемент прямокутника
 
-var indexArray = Android.indexFromJS(textIndex);
+var indexArray;
 
 var delayBetweenCharacters = 40; //затримка між спавном символів
 var delayBetweenTexts = 2000; // затримка між спавнінгом іншого тексту з масиву
@@ -92,13 +94,13 @@ function animateText() {
 
             if (i < newText.length - 1) {
                 animateFrame(i + 1);
+
             } else {
                 setTimeout(() => {
                     if(typeAnim === false){
                         return;
                     }
                     textIndex += 1;
-                    indexArray = Android.indexFromJS(textIndex);
 
                     if (textIndex === 4 || textIndex===17 || textIndex===29) {
                         buttonElement.style.display = "block";
@@ -114,11 +116,12 @@ function animateText() {
                     buttonSecondElement.addEventListener("click", secondBtn);
                     animationInProgress = true;
                     animateText();
+                        indexArray = i;
+
                 }, delayBetweenTexts);
             }
         }, delayBetweenCharacters);
     }
-
     animateFrame(0);
 }
 
@@ -128,6 +131,12 @@ buttonHistoryElement.addEventListener("click", function(){
     } else {
         showHistoryDialog();
     }
+});
+buttonFastSaveElement.addEventListener("click", function(){
+    quickSave(textIndex);
+});
+buttonFastLoadElement.addEventListener("click", function(){
+    quickLoad();
 });
 
 
@@ -221,6 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 function showHistoryDialog() {
+   historyBlockIsVisible = true;
     // Создание диалогового окна
     var dialog = document.createElement("div");
     dialog.id = "historyDialog"
@@ -244,10 +254,12 @@ function showHistoryDialog() {
     textElement.style.lineHeight = "1.5"; // Межстрочный интервал
 
     // Добавление каждой строки из массива в элемент текста
-    for (textIndex; textIndex < textArray.length; textIndex++) {
+    for (i = 0; i < indexArray; i++) {
         var line = document.createElement("div");
-        line.textContent = textArray[textIndex];
+        line.textContent = textArray[i];
         textElement.appendChild(line);
+            console.log(textIndex);
+
     }
 
 
@@ -258,12 +270,57 @@ function showHistoryDialog() {
     document.body.appendChild(dialog);
 }
 function hideHistoryDialog() {
+   historyBlockIsVisible = false;
    var dialog = document.getElementById("historyDialog");
    var textElement = document.getElementById("historyText");
-
-       // Скрываем диалоговое окно
-       if (historyBlockIsVisible) {
-           dialog.style.display = "none";
-           textElement.style.display = "none";
-       }
+    dialog.parentNode.removeChild(dialog); // Удаляем элемент из родительского узла
+            textElement.parentNode.removeChild(textElement); // Удаляем элемент текста из родительского узла
 }
+// Функция быстрого сохранения
+function quickSave() {
+    saveToFile(textIndex);
+
+}
+// Функция быстрой загрузки
+function quickLoad() {
+    setFromIndex(textIndex);
+}
+
+// Функция для установки текста по индексу
+function setFromIndex(i) {
+    textElement.innerHTML = textArray[i];
+    //TODO дальше запустить анимацию с такогото индекса
+}
+function saveToFile(data) {
+    var blob = new Blob([data], { type: 'text/plain' });
+    var url = URL.createObjectURL(blob);
+
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'quickSave.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+function readFile() {
+    var fileInput = document.createElement('input');
+    fileInput.type = 'quickSave.txt';
+
+    fileInput.onchange = function() {
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            var contents = e.target.result;
+            var lines = contents.split('\n');
+            var lastLine = lines[lines.length - 1];
+            textIndex = lastLine.trim();
+        };
+
+        reader.readAsText(file);
+    };
+
+    fileInput.click();
+}
+

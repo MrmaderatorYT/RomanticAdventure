@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
@@ -39,6 +40,10 @@ public class Game_First_Activity extends MainActivity {
         katya = PreferenceConfig.getKatyaValue(this);
         type = PreferenceConfig.getAnimSwitchValue(this);
 
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
         volumeLvl = PreferenceConfig.getVolumeLevel(this);
         mediaPlayer = MediaPlayer.create(this, R.raw.school);
         mediaPlayer.setLooping(true);
@@ -67,13 +72,5 @@ public class Game_First_Activity extends MainActivity {
         ExitConfirmationDialog.showExitConfirmationDialog(this);
     }
 
-    public class WebAppInterface {
-        @JavascriptInterface
-        public int indexFromJS(int value) {
-            choose = value;
-            PreferenceConfig.setChoose(getApplicationContext(), choose);
-            Toast.makeText(Game_First_Activity.this, "" + choose, Toast.LENGTH_LONG);
-            return value;
-        }
-    }
+
 }

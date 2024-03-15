@@ -3,6 +3,7 @@ package com.ccs.romanticadventure;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -24,11 +25,16 @@ public class Info extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         handler = new Handler();
 
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
         // Пример текста для отображения
-        String longText = "Mr_maderator_YT - CEO, головний кодер, редактор фотографій" +
+        String longText = "Mr_maderator_YT - головний кодер, редактор фотографій, сюжет\n" +
                 "Costic Antonii a.k.a ssokeer - QA, сюжет\n" +
-                "man_humor - сюжет \n" +
-                "amygoxy - робота з фотографіями \n" +
+                "amygoxy - робота з фотографіями, тестувальник \n" +
+                "man_humor - тестувальник \n" +
                 "\n" +
                 "Dalee-3 - створювач картинок (yes)";
 

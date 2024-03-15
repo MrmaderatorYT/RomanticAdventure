@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
@@ -42,6 +43,10 @@ public class Settings extends AppCompatActivity implements SharedPreferences.OnS
         seekBar = findViewById(R.id.volume_set);
         volumeTextView = findViewById(R.id.volume_text);
 
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
 
         if (type) {
             switch_anim_value.setChecked(true);

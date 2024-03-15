@@ -41,13 +41,23 @@ body {
     font-size: 5px;
     animation: typing 2s steps(24) forwards;
 }
-#buttonSkip {
+#buttonHistory {
     width: 125px; /* Задайте ширину кнопки по вашему желанию */
     height: 25px; /* Задайте высоту кнопки по вашему желанию */
     position: fixed; /* Задаем позицию фиксированной */
-    bottom: 10px; /* Расположение снизу */
-    right: 10px; /* Расположение справа */
+    top: 0; /* Расположение вверху */
+    left: 0; /* Расположение слева */
     font-size: 10px;
+}
+.buttonContainer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 10px;
+}
+
+.buttonContainer button {
+    margin-left: 5px; /* Расстояние между кнопками */
 }
 
 
