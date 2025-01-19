@@ -1,6 +1,7 @@
 package com.ccs.romanticadventure;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
@@ -15,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ccs.romanticadventure.data.PreferenceConfig;
 import com.ccs.romanticadventure.system.ExitConfirmationDialog;
 
-public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
+public class MainActivity extends Activity implements View.OnTouchListener {
     TextView startGame, settings, info;
     MediaPlayer mp;
     float volume;
@@ -96,19 +97,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        switch (v.getId()) {
-            case R.id.startBtn:
-                startActivity(new Intent(MainActivity.this, Game_First_Activity.class));
-                overridePendingTransition(0, 0);
-                break;
-            case R.id.settings:
-                startActivity(new Intent(MainActivity.this, Settings.class));
-                overridePendingTransition(0, 0);
-                break;
-            case R.id.info:
-                startActivity(new Intent(MainActivity.this, Info.class));
-                overridePendingTransition(0, 0);
-                break;
+        if (v.getId() == R.id.startBtn){
+            startActivity(new Intent(MainActivity.this, Game_First_Activity.class));
+            overridePendingTransition(0, 0);
+        }else if (v.getId() == R.id.settings){
+            startActivity(new Intent(MainActivity.this, Settings.class));
+            overridePendingTransition(0, 0);
+        } else if (v.getId() == R.id.info) {
+            startActivity(new Intent(MainActivity.this, Info.class));
+            overridePendingTransition(0, 0);
         }
         return false;
     }

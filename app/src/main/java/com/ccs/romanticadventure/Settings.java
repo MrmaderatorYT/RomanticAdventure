@@ -1,6 +1,7 @@
 package com.ccs.romanticadventure;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
@@ -16,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ccs.romanticadventure.data.PreferenceConfig;
 
-public class Settings extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener, CompoundButton.OnCheckedChangeListener {
+public class Settings extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener, CompoundButton.OnCheckedChangeListener {
 
     private MediaPlayer mediaPlayer;
     private SeekBar seekBar;

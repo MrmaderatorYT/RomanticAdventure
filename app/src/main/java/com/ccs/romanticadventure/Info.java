@@ -1,5 +1,6 @@
 package com.ccs.romanticadventure;
 
+import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Info extends AppCompatActivity {
+public class Info extends Activity {
     private ScrollView scrollView;
     private TextView textView;
     private Handler handler;
